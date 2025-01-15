@@ -1,9 +1,9 @@
 import LocationIcon from "../icons/location-icon.jsx"
 function WeatherCard(props) {
-    const { dayOrNight, temp, city, imageSrc, date, littleCircle } = props
+    const { dayOrNight, temp, city, imageSrc, date, cornerCircle, weatherContidtion } = props
     return (
         <div>
-            <div className={`w-[400px] h-[800px] z-20 shadow-lg ${dayOrNight === 'day' ? 'bg-white/25' : 'bg-[#111827BF/75]'} backdrop-blur-md`}>
+            <div className={`w-[400px] h-[800px] z-30  shadow-lg backdrop-blur-md ${dayOrNight === 'day' ? 'bg-white' : 'bg-[#111827BF]'}`}>
                 <div className="text-white flex items-center flex-col gap-[60px] py-[64px] px-[40px]">
                     <div className=" w-[100%] flex items-center justify-between">
                         <div className={`${dayOrNight === 'day' ? 'text-black' : 'text-white'}`}>
@@ -19,14 +19,14 @@ function WeatherCard(props) {
                         {temp}
                     </h1>
                     <h1 className={`text-[24px] font-extrabold mb-12 h-6 ${dayOrNight === 'day' ? 'text-[orange]' : 'text-[#777cce]'}`}>
-                        {dayOrNight === 'day' ? 'Bright' : 'Night'}
+                        {weatherContidtion}
                     </h1>
                 </div>
 
             </div>
             <img
                 className={`absolute ${dayOrNight === "day" ? 'mt-[-900px] ml-[-100px]' : ' mt-[-80px] ml-[350px]'}`}
-                src={littleCircle}
+                src={cornerCircle}
             />
         </div>
     )

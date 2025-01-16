@@ -16,7 +16,7 @@ function WeatherCard(props) {
                 </div>
                 <div className="w-[100%] h-[200px] px-[40px] text-white">
                     <h1 className="text-transparent bg-clip-text font-extrabold text-[100px] -mt-10 bg-gradient-to-b from-black to-white">
-                        {temp}
+                        {temp} 
                     </h1>
                     <h1 className={`text-[24px] font-extrabold mb-12 h-6 ${dayOrNight === 'day' ? 'text-[orange]' : 'text-[#777cce]'}`}>
                         {weatherContidtion}

@@ -4,64 +4,220 @@ import { useEffect, useState } from "react";
 import Search from "./components/search.jsx";
 import WeatherCard from "./components/weather-card.jsx";
 import MiddleCircle from "./components/middle-circle.jsx";
-import {getAllCities} from "./utils/get-all-cities.js"
+import { getAllCities } from "./utils/get-all-cities.js";
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [allCities, setAllCities] = useState([]);
-  const [weatherData, setWeatherData] = useState({})
-  const [selectedCity, setSelectedCity] = useState("Ulan Bator, Mongolia")
-  
-console.log(`this is data weatherData`)
+  const [weatherData, setWeatherData] = useState({});
+  const [selectedCity, setSelectedCity] = useState("Ulan Bator, Mongolia");
+  console.log(weatherData);
 
- console.log(weatherData)
-  const getCountries = async() => {
-    try{  
-      const response = await fetch(" https://countriesnow.space/api/v0.1/countries")
-      const result = await response.json()
-      const countries = result.data
-      const cities = getAllCities(countries)
-      setAllCities(cities)
-    } catch (error){
-      console.log(error)
+  const getCountries = async () => {
+    try {
+      const response = await fetch(
+        " https://countriesnow.space/api/v0.1/countries"
+      );
+      const result = await response.json();
+      const countries = result.data;
+      const cities = getAllCities(countries);
+      setAllCities(cities);
+    } catch (error) {
+      console.log(error);
     }
-  }
-  const weatherApiKey = "0e699c587c7948bc8c291308251501"
+  };
+  const weatherApiKey = "0e699c587c7948bc8c291308251501";
 
-  const getWeatherData = async()=>{
-    try{
-      const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${selectedCity}`)
-      const result = await response.json()
-      setWeatherData(result)
+  const getWeatherData = async () => {
+    try {
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${selectedCity}`
+      );
+      const result = await response.json();
+      setWeatherData(result);
       // console.log(result)
+    } catch (error) {
+      console.log(error);
     }
-    catch(error) {
-      console.log(error)
-    }
-  }
-  useEffect(()=>{
-    getCountries()
-  },[])
+  };
+  useEffect(() => {
+    getCountries();
+  }, []);
 
-  useEffect(()=>{
-    getWeatherData()
-  },[selectedCity])
+  useEffect(() => {
+    getWeatherData();
+  }, [selectedCity]);
 
-  const handleClickCity = (city)=>{
-    setSelectedCity(city)
-    setSearchValue("")
-    setFilteredData([])
-  }
-  // 
+  const handleClickCity = (city) => {
+    setSelectedCity(city);
+    setSearchValue("");
+    setFilteredData([]);
+  };
+  //
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
     const filtered = allCities
-      .filter((city) => city.toLowerCase().startsWith(searchValue.toLowerCase()))
+      .filter((city) =>
+        city.toLowerCase().startsWith(searchValue.toLowerCase())
+      )
       .slice(0, 4);
     setFilteredData(filtered);
   };
+
+  // const weatherImage = {
+  //   sunny: {
+  //     day: "/day/sunny.png",
+  //     night: "/night/sunny.png",
+  //   },
+  //   cloudy: {
+  //     day: "/day/cloudy.png",
+  //     night: "/night/cloudy.png",
+  //   },
+  //   snow: {
+  //     day: "/day/snowy.png",
+  //     night: "/night/snowy.png",
+  //   },
+  //   rain: {
+  //     day: "/day/rainy.png",
+  //     night: "/night/rainy.png",
+  //   },
+  //   wind: {
+  //     day: "/day/windy.png",
+  //     night: "/night/windy.png",
+  //   },
+  //   thunderstorm: {
+  //     day: "/day/thunderstorm.png",
+  //     night: "/night/thunderstorm.png",
+  //   },
+  // };
+
+  const getDayWeatherImage = () => {
+    const conditionText =
+      weatherData.forecast?.forecastday[0]?.day?.condition?.text;
+  
+    if (conditionText === "Sunny") {
+      return "/day/sunny.png";
+    } else if (conditionText === "Partly cloudy" || conditionText === "Cloudy") {
+      return "/day/cloudy.png";
+    } else if (
+      conditionText === "Patchy rain possible" ||
+      conditionText === "Patchy light drizzle" ||
+      conditionText === "Light drizzle" ||
+      conditionText === "Freezing drizzle" ||
+      conditionText === "Heavy freezing drizzle" ||
+      conditionText === "Patchy light rain" ||
+      conditionText === "Light rain" ||
+      conditionText === "Moderate rain at times" ||
+      conditionText === "Moderate rain" ||
+      conditionText === "Heavy rain at times" ||
+      conditionText === "Heavy rain" ||
+      conditionText === "Light freezing rain" ||
+      conditionText === "Moderate or heavy freezing rain" ||
+      conditionText === "Light rain shower" ||
+      conditionText === "Moderate or heavy rain shower" ||
+      conditionText === "Torrential rain shower" ||
+      conditionText === "Light sleet showers" ||
+      conditionText === "Moderate or heavy sleet showers"
+    ) {
+      return "/day/rainy.png";
+    } else if (
+      conditionText === "Patchy snow possible" ||
+      conditionText === "Blowing snow" ||
+      conditionText === "Light sleet" ||
+      conditionText === "Moderate or heavy sleet" ||
+      conditionText === "Patchy light snow" ||
+      conditionText === "Light snow" ||
+      conditionText === "Patchy moderate snow" ||
+      conditionText === "Moderate snow" ||
+      conditionText === "Patchy heavy snow" ||
+      conditionText === "Heavy snow" ||
+      conditionText === "Light snow showers" ||
+      conditionText === "Moderate or heavy snow showers" ||
+      conditionText === "Light showers of ice pellets" ||
+      conditionText === "Moderate or heavy showers of ice pellets"
+    ) {
+      return "/day/snowy.png";
+    } else if (
+      conditionText === "Thundery outbreaks possible" ||
+      conditionText === "Ice pellets" ||
+      conditionText === "Patchy light rain with thunder" ||
+      conditionText === "Moderate or heavy rain with thunder" ||
+      conditionText === "Patchy light snow with thunder" ||
+      conditionText === "Moderate or heavy snow with thunder"
+    ) {
+      return "/day/thunderstorm.png";
+    } else {
+      return "/day/sunny.png";
+    }
+  };
+  
+
+  const getNightWeatherImage = () => {
+    const conditionText =
+      weatherData.forecast?.forecastday[0]?.day?.condition?.text;
+  
+    if (conditionText === "Sunny") {
+      return "/night/sunny.png";
+    } else if (conditionText === "Partly cloudy" || conditionText === "Cloudy") {
+      return "/night/cloudy.png";
+    } else if (
+      conditionText === "Patchy rain possible" ||
+      conditionText === "Patchy light drizzle" ||
+      conditionText === "Light drizzle" ||
+      conditionText === "Freezing drizzle" ||
+      conditionText === "Heavy freezing drizzle" ||
+      conditionText === "Patchy light rain" ||
+      conditionText === "Light rain" ||
+      conditionText === "Moderate rain at times" ||
+      conditionText === "Moderate rain" ||
+      conditionText === "Heavy rain at times" ||
+      conditionText === "Heavy rain" ||
+      conditionText === "Light freezing rain" ||
+      conditionText === "Moderate or heavy freezing rain" ||
+      conditionText === "Light rain shower" ||
+      conditionText === "Moderate or heavy rain shower" ||
+      conditionText === "Torrential rain shower" ||
+      conditionText === "Light sleet showers" ||
+      conditionText === "Moderate or heavy sleet showers"
+    ) {
+      return "/night/rainy.png";
+    } else if (
+      conditionText === "Patchy snow possible" ||
+      conditionText === "Blowing snow" ||
+      conditionText === "Light sleet" ||
+      conditionText === "Moderate or heavy sleet" ||
+      conditionText === "Patchy light snow" ||
+      conditionText === "Light snow" ||
+      conditionText === "Patchy moderate snow" ||
+      conditionText === "Moderate snow" ||
+      conditionText === "Patchy heavy snow" ||
+      conditionText === "Heavy snow" ||
+      conditionText === "Light snow showers" ||
+      conditionText === "Moderate or heavy snow showers" ||
+      conditionText === "Light showers of ice pellets" ||
+      conditionText === "Moderate or heavy showers of ice pellets"
+    ) {
+      return "/night/snowy.png";
+    } else if (
+      conditionText === "Thundery outbreaks possible" ||
+      conditionText === "Ice pellets" ||
+      conditionText === "Patchy light rain with thunder" ||
+      conditionText === "Moderate or heavy rain with thunder" ||
+      conditionText === "Patchy light snow with thunder" ||
+      conditionText === "Moderate or heavy snow with thunder"
+    ) {
+      return "/night/thunderstorm.png";
+    } else {
+      return "/night/sunny.png";
+    }
+  };
+  
+  // const getWeatherImage = (conditionText,isDay)=>{
+  //   const dayOrNight = isDay ? "day" : "night";
+  //   return weatherImage[conditionText]?.[dayOrNight]
+  // }`
 
   return (
     <>
@@ -70,11 +226,11 @@ console.log(`this is data weatherData`)
         {/* left side */}
         <div className=" w-screen h-screen bg-#F3F4F6 justify-center items-center flex flex-col">
           {/* search input */}
-          <Search searchValue={searchValue} 
-          handleSearchChange={handleSearchChange} 
-          filteredData={filteredData}
-          handleClickCity={handleClickCity}
-          
+          <Search
+            searchValue={searchValue}
+            handleSearchChange={handleSearchChange}
+            filteredData={filteredData}
+            handleClickCity={handleClickCity}
           />
 
           {/* day */}
@@ -82,10 +238,13 @@ console.log(`this is data weatherData`)
             date={weatherData.forecast?.forecastday[0]?.date}
             city={weatherData.location?.name}
             temp={weatherData.forecast?.forecastday[0]?.day?.maxtemp_c}
-            imageSrc={`https://s3-alpha-sig.figma.com/img/695d/d5ec/821b86dd320b93434750d28a17b16fc0?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fdLdzS3dxr0-t5SiN2fDMkxayH-uq0A8msh4wXcpSveM5sDN0IZ~-K0m4uXWVsAV9DGkPQDJlyndEKFu7JZVqpKMOfi2fKHKS642HII2MgKwOBa5pNxqk2xh7TsJ0m~zwXlrztxu7DETzSsYn3yV25dzlvEZjXct9h1vafyp6jAjUzdPEFopW3Wfe6jk90gzgX2lNYXPEv6lj0VdgQvVBqAK-PN~-ShY8nHV6JQ4x1YhX0UDeb44ulngf4b3kgrzJZ~DNiY8A5wCSFP~pOboVuBAc~OzVVPh6m5HnFjIc3VHXdbSgcGpYpyeqmuQZ9oJbSEYaPB~B4M7YvxekKfPCg__`}
+            imageSrc={getDayWeatherImage()}
             dayOrNight="day"
-            weatherContidtion={weatherData.forecast?.forecastday[0]?.day?.condition?.text}
-            cornerCircle={sun} />
+            weatherContidtion={
+              weatherData.forecast?.forecastday[0]?.day?.condition?.text
+            }
+            cornerCircle={sun}
+          />
         </div>
         {/* right side  */}
 
@@ -95,16 +254,18 @@ console.log(`this is data weatherData`)
             date={weatherData.forecast?.forecastday[0]?.date}
             city={weatherData.location?.name}
             temp={weatherData.forecast?.forecastday[0]?.day?.mintemp_c}
-            imageSrc={`https://s3-alpha-sig.figma.com/img/b6fe/b523/f01b7c0c0765dab6de4f9f5cbb022e1d?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ft9~h2kAcRihnxvVgA9fussyynRP2N5P0~9iKCQRv-isLrnzSbeXK~uwJwozaftBvHpqV4ba8sRJGIueVAlZd2pKb3A05AyUdcGMzjnnAPNoA-vyKiLzxjVpXeinrFUUEJw9iQOY279drc9PU5iicGoLQVC9RkCfDtT9ta5AfBjwtQWxcEfRmR8dcXEkIOJ1IGF8GL5infm6xZb5Pej7C7bIllsp-mPuUiK11NOvhnG-AtGn1HeAJtO7VPY-zO2ih0zc6N7kbnPtAMmsum2OdgvwaKi5mi1~fJBlq77R9d5a6jjUzBRihyLqHDLlofC32fyYVclAlvT2c9odRKxooQ__`}
-            dayOrNight="harangui" 
-            weatherContidtion={weatherData.forecast?.forecastday[0]?.day?.condition?.text}
-            cornerCircle={moon} />
+            imageSrc={getNightWeatherImage()}
+            dayOrNight="night"
+            weatherContidtion={
+              weatherData.forecast?.forecastday[0]?.day?.condition?.text
+            }
+            cornerCircle={moon}
+          />
         </div>
 
         {/* rounded dots*/}
         <MiddleCircle />
       </div>
-
     </>
   );
 }

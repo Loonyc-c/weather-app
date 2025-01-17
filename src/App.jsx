@@ -66,32 +66,7 @@ function App() {
     setFilteredData(filtered);
   };
 
-  // const weatherImage = {
-  //   sunny: {
-  //     day: "/day/sunny.png",
-  //     night: "/night/sunny.png",
-  //   },
-  //   cloudy: {
-  //     day: "/day/cloudy.png",
-  //     night: "/night/cloudy.png",
-  //   },
-  //   snow: {
-  //     day: "/day/snowy.png",
-  //     night: "/night/snowy.png",
-  //   },
-  //   rain: {
-  //     day: "/day/rainy.png",
-  //     night: "/night/rainy.png",
-  //   },
-  //   wind: {
-  //     day: "/day/windy.png",
-  //     night: "/night/windy.png",
-  //   },
-  //   thunderstorm: {
-  //     day: "/day/thunderstorm.png",
-  //     night: "/night/thunderstorm.png",
-  //   },
-  // };
+
 
   const getDayWeatherImage = () => {
     const conditionText =

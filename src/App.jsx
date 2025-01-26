@@ -17,7 +17,7 @@ function App() {
   console.log(weatherData);
 
   const getCountries = async () => {
-    setIsLoading(true)
+    // setIsLoading(true)
     try {
       const response = await fetch(
         " https://countriesnow.space/api/v0.1/countries"
@@ -28,8 +28,8 @@ function App() {
       setAllCities(cities);
     } catch (error) {
       console.log(error);
-    } finally{
-      setIsLoading(false)
+    } finally {
+      // setIsLoading(false)
     }
   };
   const weatherApiKey = "0e699c587c7948bc8c291308251501";
@@ -45,7 +45,7 @@ function App() {
       // console.log(result)
     } catch (error) {
       console.log(error);
-    } finally{
+    } finally {
       setIsLoading(false)
     }
   };
@@ -79,7 +79,7 @@ function App() {
   const getDayWeatherImage = () => {
     const conditionText =
       weatherData.forecast?.forecastday[0]?.day?.condition?.text;
-  
+
     if (conditionText === "Sunny") {
       return "/day/sunny.png";
     } else if (conditionText === "Partly cloudy" || conditionText === "Cloudy") {
@@ -135,12 +135,12 @@ function App() {
       return "/day/sunny.png";
     }
   };
-  
+
 
   const getNightWeatherImage = () => {
     const conditionText =
       weatherData.forecast?.forecastday[0]?.day?.condition?.text;
-  
+
     if (conditionText === "Sunny") {
       return "/night/sunny.png";
     } else if (conditionText === "Partly cloudy" || conditionText === "Cloudy") {
@@ -198,26 +198,22 @@ function App() {
   };
 
   if(isLoading){
-    return <div className="absolute flex gap-[1170px] top-[500px] left-[580px]">
+    return <div className=" flex absolute gap-[104vh] top-[45vh] left-[52vh]">
       <ClipLoader 
       />
       <ClipLoader 
       />
       </div> 
   }
-  
+
   return (
     <>
       {/* container */}
       <div className="bg-#F3F4F6 w-screen h-screen flex justify-center items-center ">
         {/* left side */}
-        <div className=" w-screen h-screen bg-#F3F4F6 justify-center items-center flex flex-col">
+        <div className="relative w-screen h-screen bg-#F3F4F6 justify-center items-center flex flex-col">
           {/* search input */}
-          {
-            isLoading && (
-              <ClipLoader />
-            )
-          }
+
           <Search
             searchValue={searchValue}
             handleSearchChange={handleSearchChange}
@@ -235,9 +231,14 @@ function App() {
             weatherContidtion={
               weatherData.forecast?.forecastday[0]?.day?.condition?.text
             }
+
             cornerCircle={sun}
+
           />
+          
+
         </div>
+        
         {/* right side  */}
 
         <div className="w-screen h-screen bg-[#0F141E] justify-center items-center flex flex-col">
@@ -252,6 +253,7 @@ function App() {
               weatherData.forecast?.forecastday[0]?.day?.condition?.text
             }
             cornerCircle={moon}
+
           />
         </div>
 

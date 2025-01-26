@@ -19,7 +19,7 @@ function Search(props) {
      { shouldDisplay && (<div className="rounded-3xl bg-white/80 py-4 shadow-lg backdrop-blur-md">
           {filteredData.map((el) => (
             <p
-              className="flex text-[18px] gap-[10px] px-[10px] py-[5px]"
+              className="flex text-[18px] gap-[10px] px-[10px] py-[5px] cursor-pointer"
               key={el}
               onClick={()=>handleClickCity(el)}
             >

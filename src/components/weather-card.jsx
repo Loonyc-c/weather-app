@@ -6,8 +6,8 @@ import Profile from "../icons/profile.jsx"
 function WeatherCard(props) {
     const { dayOrNight, temp, city, imageSrc, date, cornerCircle, weatherContidtion } = props
     return (
-        <div>
-            <div className={`w-[400px] h-[800px] hover:hidden z-3 rounded- 10.5 shadow-lg backdrop-blur-md ${dayOrNight === "day" ? "bg-[white]" : "bg-Cool Gray-600"}`}>
+        <div className="z-10">
+            <div className={`w-[400px] h-[800px] rounded-10.5 shadow-lg backdrop-blur-md ${dayOrNight === "day" ? "bg-[white]" : "bg-Cool Gray-600"}`}>
                 <div className=" text-white flex items-center flex-col gap-[60px] py-[64px] px-[40px]">
                     <div className=" w-[100%] flex items-center justify-between">
                         <div className={`${dayOrNight === "day" ? "text-black" : "text-white"}`}>

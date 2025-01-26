@@ -5,6 +5,7 @@ import Search from "./components/search.jsx";
 import WeatherCard from "./components/weather-card.jsx";
 import MiddleCircle from "./components/middle-circle.jsx";
 import { getAllCities } from "./utils/get-all-cities.js";
+import { ClipLoader } from "react-spinners";
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
@@ -12,9 +13,11 @@ function App() {
   const [allCities, setAllCities] = useState([]);
   const [weatherData, setWeatherData] = useState({});
   const [selectedCity, setSelectedCity] = useState("Ulan Bator, Mongolia");
+  const [isLoading, setIsLoading] = useState(false)
   console.log(weatherData);
 
   const getCountries = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch(
         " https://countriesnow.space/api/v0.1/countries"
@@ -25,11 +28,14 @@ function App() {
       setAllCities(cities);
     } catch (error) {
       console.log(error);
+    } finally{
+      setIsLoading(false)
     }
   };
   const weatherApiKey = "0e699c587c7948bc8c291308251501";
 
   const getWeatherData = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch(
         `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${selectedCity}`
@@ -39,6 +45,8 @@ function App() {
       // console.log(result)
     } catch (error) {
       console.log(error);
+    } finally{
+      setIsLoading(false)
     }
   };
   useEffect(() => {
@@ -188,12 +196,16 @@ function App() {
       return "/night/sunny.png";
     }
   };
-  
-  // const getWeatherImage = (conditionText,isDay)=>{
-  //   const dayOrNight = isDay ? "day" : "night";
-  //   return weatherImage[conditionText]?.[dayOrNight]
-  // }`
 
+  if(isLoading){
+    return <div className="absolute flex gap-[1170px] top-[500px] left-[580px]">
+      <ClipLoader 
+      />
+      <ClipLoader 
+      />
+      </div> 
+  }
+  
   return (
     <>
       {/* container */}
@@ -201,6 +213,11 @@ function App() {
         {/* left side */}
         <div className=" w-screen h-screen bg-#F3F4F6 justify-center items-center flex flex-col">
           {/* search input */}
+          {
+            isLoading && (
+              <ClipLoader />
+            )
+          }
           <Search
             searchValue={searchValue}
             handleSearchChange={handleSearchChange}
